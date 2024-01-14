@@ -1,0 +1,16 @@
+[package]
+name = "rtdlib-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+env_logger = "0.10.1"
+futures-util = "0.3.30"
+log = "0.4.20"
+rtdlib = { version = "1.8.1", features = [ "sys" ] }
+serde = { version = "1.0.195", features = [ "derive" ] }
+serde_derive = "1.0.195"
+tokio = { version = "1.35.1", features = [ "rt", "macros", "rt-multi-thread" ] }
+warp = "0.3.6"
