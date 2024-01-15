@@ -1,8 +1,9 @@
 use std::collections::HashMap;
 use std::convert::Infallible;
+use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
 use std::time::{SystemTime, Duration};
-use std::cmp;
+use std::{cmp, env};
 
 use log::debug;
 use serde_derive::{Deserialize, Serialize};
@@ -159,5 +160,15 @@ async fn main() {
             }
         );
 
-    warp::serve(routes).run(([127, 0, 0, 1], 3000)).await;
+    let ip = env::var("RTDLIB_SERVER_LISTEN_IP").unwrap_or("127.0.0.1".to_string());
+    let port = env::var("RTDLIB_SERVER_LISTEN_PORT").unwrap_or("3000".to_string());
+
+    let ip: IpAddr = ip.parse().unwrap();
+    let port: u16 = port.parse().unwrap();
+
+    let addr: SocketAddr = (ip, port).into();
+
+    debug!("listening on {}", addr);
+
+    warp::serve(routes).run(addr).await;
 }
